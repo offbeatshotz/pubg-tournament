@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG Console Arena | PS5 & Xbox Tournaments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background-color: #000; border-bottom: 2px solid #f39c12; }
+        .hero { padding: 120px 0; text-align: center; background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center; }
+        .btn-warning { background-color: #f39c12; border: none; font-weight: bold; color: #000; padding: 12px 30px; }
+        .btn-warning:hover { background-color: #e67e22; }
+        .card { background-color: #1f1f1f; border: 1px solid #333; color: #e0e0e0; transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); border-color: #f39c12; }
+        .stat-icon { color: #f39c12; font-size: 2rem; margin-bottom: 15px; }
+        .leaderboard-table { background-color: #1f1f1f; border-radius: 10px; overflow: hidden; }
+        .leaderboard-table th { background-color: #333; color: #f39c12; border: none; }
+        .leaderboard-table td { border-color: #333; }
+        .badge-xbox { background-color: #107c10; color: white; }
+        .badge-psn { background-color: #003087; color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"><i class="fas fa-crosshairs text-warning me-2"></i>PUBG CONSOLE ARENA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tournaments.html">Tournaments</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-warning ms-lg-3" href="#">Login / Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="container">
+            <h1 class="display-2 fw-bold text-warning mb-3">WIN REAL MONEY ON CONSOLE</h1>
+            <p class="lead mb-5 fs-4">The #1 Platform for PS5 & Xbox Series PUBG Tournaments. <br>Automatic Stat Tracking & Instant PayPal Payouts.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="tournaments.html" class="btn btn-warning btn-lg">Browse Tournaments</a>
+                <a href="#how-it-works" class="btn btn-outline-light btn-lg">How It Works</a>
+            </div>
+            <div class="mt-5">
+                <span class="badge badge-xbox p-2 me-2"><i class="fab fa-xbox me-1"></i> Xbox Series X|S</span>
+                <span class="badge badge-psn p-2"><i class="fab fa-playstation me-1"></i> PlayStation 5</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-5 py-5" id="how-it-works">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <i class="fas fa-link stat-icon"></i>
+                <h3>1. Link ID</h3>
+                <p class="text-muted">Connect your Xbox Gamertag or PSN ID to our secure platform.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="fas fa-chart-line stat-icon"></i>
+                <h3>2. Compete</h3>
+                <p class="text-muted">Play in scheduled tournaments. We track your kills and wins via the PUBG API.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="fab fa-paypal stat-icon"></i>
+                <h3>3. Get Paid</h3>
+                <p class="text-muted">Winnings are automatically credited to your balance and sent to your PayPal.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="text-warning mb-4"><i class="fas fa-trophy me-2"></i>Global Leaderboard</h2>
+                <div class="leaderboard-table table-responsive">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Platform</th>
+                                <th>Wins</th>
+                                <th>Kills</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>XboxSlayer_99</td>
+                                <td><span class="badge badge-xbox">Xbox</span></td>
+                                <td>156</td>
+                                <td>2,401</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>PS5_Champion</td>
+                                <td><span class="badge badge-psn">PS5</span></td>
+                                <td>142</td>
+                                <td>1,890</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>GhostRunner</td>
+                                <td><span class="badge badge-xbox">Xbox</span></td>
+                                <td>128</td>
+                                <td>3,102</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-4 mt-lg-0">
+                <div class="card p-4 mb-4">
+                    <h3 class="text-warning mb-3">Our Sponsors</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Razer</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Logitech G</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Red Bull</li>
+                    </ul>
+                    <p class="small text-muted">Interact with sponsors to earn prize pool credits!</p>
+                </div>
+                <div class="card p-4">
+                    <h3 class="text-warning mb-3">Community Funded</h3>
+                    <p class="small">Our prize pools are built through community <strong>donations</strong> and <strong>sponsor credits</strong>. 100% of these funds go to the winners.</p>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fab fa-paypal text-info me-2"></i>Recent Payout</span>
+                        <span class="text-success">+$50.00</span>
+                    </div>
+                    <a href="tournaments.html" class="btn btn-warning w-100 mt-3">Start Earning</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-black py-4 border-top border-secondary">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">&copy; 2026 PUBG Console Arena. All rights reserved.</p>
+            <div class="mt-2">
+                <a href="#" class="text-muted me-3 text-decoration-none"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-muted me-3 text-decoration-none"><i class="fab fa-discord"></i></a>
+                <a href="#" class="text-muted text-decoration-none"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
