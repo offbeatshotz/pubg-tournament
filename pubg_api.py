@@ -2,9 +2,7 @@ import requests
 import os
 
 class PUBGAPI:
-    def __init__(self, api_key=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhMzZiNDg3MC1lNTljLTAxM2UtMjMxNy03YTdjNWUyMTk0NjciLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzcwMzkwOTQ3LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii00MWFmMTcwYi1kOWI0LTRiZWItODMzOS1hNjI5YmNlNDZiMWIifQ.sNtn3DDh-LrDCxyaGnv6bc39YeEz8QcT5ub_mr-PFiE
-
-):
+    def __init__(self, api_key=None):
         self.api_key = api_key or os.environ.get('PUBG_API_KEY')
         self.base_url = "https://api.pubg.com/shards"
         self.headers = {
