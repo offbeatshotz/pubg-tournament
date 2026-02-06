@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-6">
+        <div class="card p-4 shadow-lg border-warning">
+            <h2 class="text-center text-warning mb-4"><i class="fas fa-user-plus me-2"></i>Create Account</h2>
+            
+            <form action="{{ url_for('register') }}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control bg-dark text-light border-secondary" required placeholder="ArenaHero">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-control bg-dark text-light border-secondary" required placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Platform</label>
+                    <select name="platform" class="form-select bg-dark text-light border-secondary">
+                        <option value="Xbox">Xbox Series X|S</option>
+                        <option value="PS5">PlayStation 5</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control bg-dark text-light border-secondary" required placeholder="Create a password">
+                </div>
+                <button type="submit" class="btn btn-primary w-100 btn-lg">Create Account</button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}" class="text-warning">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -24,6 +24,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="tournaments.html">Tournaments</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-outline-warning btn-sm" href="login.html">Login</a></li>
                 </ul>
             </div>
         </div>
@@ -48,9 +49,19 @@
                     <div class="card-body">
                         <p class="mb-2"><strong>Mode:</strong> Squads TPP</p>
                         <p class="mb-2"><strong>Platform:</strong> <span class="badge badge-xbox">Xbox</span> <span class="badge badge-psn">PS5</span></p>
-                        <p class="mb-2"><strong>Prize Pool:</strong> $100.00</p>
-                        <p class="mb-3 text-muted small"><i class="fas fa-clock me-1"></i> Starts in 2 days</p>
-                        <button class="btn btn-warning w-100 disabled"><i class="fas fa-user-plus me-1"></i> Join (Requires App)</button>
+                        <div class="alert alert-dark py-2 mb-3">
+                            <p class="mb-1 small fw-bold">Prize Breakdown:</p>
+                            <div class="d-flex justify-content-between small"><span>Base:</span> <span>$25.00</span></div>
+                            <div class="d-flex justify-content-between small"><span>Donations:</span> <span>$45.00</span></div>
+                            <div class="d-flex justify-content-between small"><span>Sponsor Credits:</span> <span>$30.00</span></div>
+                            <hr class="my-1">
+                            <div class="d-flex justify-content-between fw-bold"><span>Total Pool:</span> <span>$100.00</span></div>
+                        </div>
+                        <div class="btn-group w-100">
+                            <button class="btn btn-warning disabled">Join</button>
+                            <button class="btn btn-outline-info">Donate</button>
+                            <button class="btn btn-outline-success">Earn Credit</button>
+                        </div>
                     </div>
                 </div>
             </div>

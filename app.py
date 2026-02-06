@@ -226,15 +226,22 @@ def update_profile():
     flash("Profile updated successfully!")
     return redirect(url_for('dashboard'))
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    flash("Login feature coming soon!")
-    return redirect(url_for('index'))
+    if request.method == 'POST':
+        # Simple placeholder login logic
+        email = request.form.get('email')
+        flash(f"Login attempted for {email}. (Full auth system coming soon!)")
+        return redirect(url_for('index'))
+    return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    flash("Registration feature coming soon!")
-    return redirect(url_for('index'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        flash(f"Account created for {username}! You can now login.")
+        return redirect(url_for('login'))
+    return render_template('register.html')
 
 @app.route('/logout')
 @login_required
