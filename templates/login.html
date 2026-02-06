@@ -7,16 +7,16 @@
             <h2 class="text-center text-warning mb-4"><i class="fas fa-sign-in-alt me-2"></i>Login to Arena</h2>
             
             <div class="d-grid gap-3 mb-4">
-                <a href="#" class="btn btn-outline-success btn-lg">
-                    <i class="fab fa-xbox me-2"></i> Login with Xbox Live
+                <a href="{{ url_for('register', platform='Xbox') }}" class="btn btn-outline-success btn-lg">
+                    <i class="fab fa-xbox me-2"></i> Continue with Xbox
                 </a>
-                <a href="#" class="btn btn-outline-primary btn-lg">
-                    <i class="fab fa-playstation me-2"></i> Login with PSN
+                <a href="{{ url_for('register', platform='PS5') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fab fa-playstation me-2"></i> Continue with PSN
                 </a>
             </div>
 
             <div class="text-center mb-4">
-                <span class="text-muted">or continue with email</span>
+                <span class="text-muted">or login with email</span>
             </div>
 
             <form action="{{ url_for('login') }}" method="POST">
@@ -28,7 +28,8 @@
                     <label class="form-label">Password</label>
                     <input type="password" name="password" class="form-control bg-dark text-light border-secondary" required placeholder="Enter your password">
                 </div>
-                <button type="submit" class="btn btn-primary w-100 btn-lg">Sign In</button>
+                <button type="submit" class="btn btn-primary w-100 btn-lg mb-3">Sign In</button>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-warning w-100">Create New Account</a>
             </form>
             
             <div class="mt-4 text-center">

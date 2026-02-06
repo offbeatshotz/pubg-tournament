@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | PUBG Console Arena</title>
+    <title>Register | PUBG Console Arena</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background-color: #121212; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .navbar { background-color: #000; border-bottom: 2px solid #f39c12; }
+        .navbar { background-color: #000; border-bottom: 2px solid #f39c12; z-index: 1050; }
         .card { background-color: #1f1f1f; border: 1px solid #333; color: #e0e0e0; }
         .btn-warning { background-color: #f39c12; border: none; font-weight: bold; color: #000; }
     </style>
@@ -30,29 +30,33 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4 shadow-lg">
-                    <h2 class="text-center text-warning mb-4">Login to Arena</h2>
+                    <h2 class="text-center text-warning mb-4">Create Account</h2>
                     <div class="alert alert-info small">
-                        <i class="fas fa-info-circle me-2"></i> This is a <strong>static preview</strong>. Real authentication requires the Python backend.
+                        <i class="fas fa-info-circle me-2"></i> This is a <strong>static preview</strong>. Registration requires the Python backend.
                     </div>
                     
-                    <div class="d-grid gap-3 mb-4">
-                        <a href="register.html" class="btn btn-outline-success btn-lg"><i class="fab fa-xbox me-2"></i> Continue with Xbox</a>
-                        <a href="register.html" class="btn btn-outline-primary btn-lg"><i class="fab fa-playstation me-2"></i> Continue with PSN</a>
-                    </div>
-
-                    <div class="text-center mb-4 text-muted small">or login with email</div>
-
-                    <form onsubmit="event.preventDefault(); alert('Auth requires Python backend');">
+                    <form onsubmit="event.preventDefault(); alert('Registration requires Python backend');">
+                        <div class="mb-3">
+                            <label class="form-label small">Username</label>
+                            <input type="text" class="form-control bg-dark text-light border-secondary" placeholder="ArenaHero">
+                        </div>
                         <div class="mb-3">
                             <label class="form-label small">Email Address</label>
                             <input type="email" class="form-control bg-dark text-light border-secondary" placeholder="name@example.com">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small">Password</label>
-                            <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="Enter your password">
+                            <label class="form-label small">Preferred Platform</label>
+                            <select class="form-select bg-dark text-light border-secondary">
+                                <option>Xbox Series X|S</option>
+                                <option>PlayStation 5</option>
+                            </select>
                         </div>
-                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">Sign In</button>
-                        <a href="register.html" class="btn btn-outline-light w-100 py-2">Create New Account</a>
+                        <div class="mb-3">
+                            <label class="form-label small">Password</label>
+                            <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="Create a password">
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">Create Account</button>
+                        <a href="login.html" class="btn btn-outline-light w-100 py-2">Back to Login</a>
                     </form>
                 </div>
             </div>

@@ -36,11 +36,11 @@
                     </div>
                     
                     <div class="d-grid gap-3 mb-4">
-                        <button class="btn btn-outline-success btn-lg disabled"><i class="fab fa-xbox me-2"></i> Login with Xbox Live</button>
-                        <button class="btn btn-outline-primary btn-lg disabled"><i class="fab fa-playstation me-2"></i> Login with PSN</button>
+                        <a href="register.html" class="btn btn-outline-success btn-lg"><i class="fab fa-xbox me-2"></i> Continue with Xbox</a>
+                        <a href="register.html" class="btn btn-outline-primary btn-lg"><i class="fab fa-playstation me-2"></i> Continue with PSN</a>
                     </div>
 
-                    <div class="text-center mb-4 text-muted small">or continue with email</div>
+                    <div class="text-center mb-4 text-muted small">or login with email</div>
 
                     <form onsubmit="event.preventDefault(); alert('Auth requires Python backend');">
                         <div class="mb-3">
@@ -51,7 +51,8 @@
                             <label class="form-label small">Password</label>
                             <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="Enter your password">
                         </div>
-                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold">Sign In</button>
+                        <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">Sign In</button>
+                        <a href="register.html" class="btn btn-outline-light w-100 py-2">Create New Account</a>
                     </form>
                 </div>
             </div>

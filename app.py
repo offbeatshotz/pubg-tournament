@@ -246,6 +246,9 @@ def login():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+    
+    selected_platform = request.args.get('platform', 'Xbox') # Default to Xbox
+
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -262,7 +265,7 @@ def register():
         db.session.commit()
         flash('Registration successful! Please login.')
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return render_template('register.html', platform=selected_platform)
 
 @app.route('/logout')
 @login_required
