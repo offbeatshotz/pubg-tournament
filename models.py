@@ -13,6 +13,8 @@ class User(UserMixin, db.Model):
     platform = db.Column(db.String(20), nullable=False) # PS5 or Xbox Series
     xbox_gamertag = db.Column(db.String(80), nullable=True)
     psn_id = db.Column(db.String(80), nullable=True)
+    xbox_oauth_id = db.Column(db.String(100), nullable=True, unique=True)
+    psn_oauth_id = db.Column(db.String(100), nullable=True, unique=True)
     balance = db.Column(db.Float, default=0.0)
     total_kills = db.Column(db.Integer, default=0)
     total_wins = db.Column(db.Integer, default=0)

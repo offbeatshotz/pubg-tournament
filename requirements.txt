@@ -5,3 +5,4 @@ paypalrestsdk
 python-dotenv
 requests
 gunicorn
+Authlib
