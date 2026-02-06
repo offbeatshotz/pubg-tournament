@@ -21,12 +21,23 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+import logging
 from extensions import db
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 login_manager = LoginManager(app)
 db.init_app(app)
 
+from models import User, Tournament, Registration, Payout, TournamentMatch, MatchResult, Donation, Sponsor
+
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+        logger.info("Database tables created successfully")
+    except Exception as e:
+        logger.error(f"Error creating database tables: {e}")
 
 login_manager.login_view = 'login'
 
@@ -61,27 +72,25 @@ paypalrestsdk.configure({
     "client_secret": os.environ.get("PAYPAL_CLIENT_SECRET", "YOUR_CLIENT_SECRET")
 })
 
-# Models
-from models import User, Tournament, Registration, Payout, TournamentMatch, MatchResult, Donation, Sponsor
 from pubg_api import PUBGAPI
 
 pubg_api = PUBGAPI()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 # Routes
 @app.route('/')
 @app.route('/index')
 def index():
-    top_players = User.query.order_by(User.total_wins.desc()).limit(5).all()
-    active_sponsors = Sponsor.query.all()
+    top_players = db.session.query(User).order_by(User.total_wins.desc()).limit(5).all()
+    active_sponsors = db.session.query(Sponsor).all()
     return render_template('index.html', top_players=top_players, sponsors=active_sponsors)
 
 @app.route('/tournament/<int:tournament_id>/donate', methods=['POST'])
 def donate_to_tournament(tournament_id):
-    tournament = Tournament.query.get_or_404(tournament_id)
+    tournament = db.get_or_404(Tournament, tournament_id)
     amount = float(request.form.get('amount', 0))
     donor_name = request.form.get('donor_name', 'Anonymous')
     
@@ -97,7 +106,7 @@ def donate_to_tournament(tournament_id):
 @login_required
 def earn_sponsor_credit(tournament_id):
     # Simulated: User interacts with a sponsor (e.g., watches an ad)
-    tournament = Tournament.query.get_or_404(tournament_id)
+    tournament = db.get_or_404(Tournament, tournament_id)
     credit_amount = 0.50 # Fixed credit per interaction
     tournament.sponsor_credit_total += credit_amount
     db.session.commit()
@@ -109,7 +118,7 @@ def earn_sponsor_credit(tournament_id):
 def sync_tournament_stats(tournament_id):
     # This route would be used to fetch stats for a match in a tournament
     # In a real app, you might trigger this automatically or via webhook
-    tournament = Tournament.query.get_or_404(tournament_id)
+    tournament = db.get_or_404(Tournament, tournament_id)
     match_id = request.form.get('match_id')
     
     if not match_id:
@@ -126,9 +135,9 @@ def sync_tournament_stats(tournament_id):
     db.session.add(new_match)
     
     # Process participants
-    registrations = Registration.query.filter_by(tournament_id=tournament.id).all()
+    registrations = db.session.query(Registration).filter_by(tournament_id=tournament.id).all()
     for reg in registrations:
-        user = User.query.get(reg.user_id)
+        user = db.session.get(User, reg.user_id)
         # Use xbox_gamertag or psn_id depending on platform
         gamertag = user.xbox_gamertag if tournament.platform.lower() == 'xbox' else user.psn_id
         
@@ -164,13 +173,13 @@ def sync_tournament_stats(tournament_id):
 
 @app.route('/tournaments')
 def tournaments():
-    all_tournaments = Tournament.query.order_by(Tournament.date.desc()).all()
+    all_tournaments = db.session.query(Tournament).order_by(Tournament.date.desc()).all()
     return render_template('tournaments.html', tournaments=all_tournaments)
 
 @app.route('/payout/<int:user_id>', methods=['POST'])
 @login_required
 def request_payout(user_id):
-    user = User.query.get_or_404(user_id)
+    user = db.get_or_404(User, user_id)
     if user.id != current_user.id:
         flash("Unauthorized access.")
         return redirect(url_for('index'))
@@ -236,7 +245,7 @@ def add_tournament():
 @app.route('/admin/init-sponsors')
 def init_sponsors():
     # Helper to add some placeholder sponsors
-    if Sponsor.query.count() == 0:
+    if db.session.query(Sponsor).count() == 0:
         s1 = Sponsor(name="Razer", website_url="https://www.razer.com")
         s2 = Sponsor(name="Logitech G", website_url="https://www.logitechg.com")
         s3 = Sponsor(name="Red Bull", website_url="https://www.redbull.com")
@@ -266,7 +275,7 @@ def auth_xbox():
     user_info = token.get('userinfo')
     if user_info:
         # 1-Click: Find or Create
-        user = User.query.filter_by(xbox_oauth_id=user_info['sub']).first()
+        user = db.session.query(User).filter_by(xbox_oauth_id=user_info['sub']).first()
         if not user:
             # Create account automatically on first click
             user = User(
@@ -293,7 +302,7 @@ def auth_psn():
     token = psn.authorize_access_token()
     # Simulated PSN 1-Click logic
     user_id = "psn_user_id" # This would come from token/api
-    user = User.query.filter_by(psn_oauth_id=user_id).first()
+    user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
     if not user:
         user = User(
             username="PSN_Player",
@@ -316,7 +325,7 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
+        user = db.session.query(User).filter_by(email=email).first()
         if user and user.check_password(password):
             login_user(user)
             flash('Logged in successfully!')
@@ -338,7 +347,7 @@ def register():
         password = request.form.get('password')
         platform = request.form.get('platform')
         
-        if User.query.filter_by(email=email).first():
+        if db.session.query(User).filter_by(email=email).first():
             flash('Email already exists')
             return redirect(url_for('register'))
         
