@@ -4,8 +4,24 @@
 <div class="row justify-content-center py-5">
     <div class="col-md-6">
         <div class="card p-4 shadow-lg border-warning">
-            <h2 class="text-center text-warning mb-4"><i class="fas fa-user-plus me-2"></i>Create Account</h2>
+            <h2 class="text-center text-warning mb-4"><i class="fas fa-bolt me-2"></i>1-Click Join</h2>
             
+            <p class="text-center text-muted small mb-4">The fastest way to join. No forms required.</p>
+
+            <div class="d-grid gap-3 mb-4">
+                <a href="{{ url_for('login_xbox') }}" class="btn btn-success btn-lg py-3 fw-bold">
+                    <i class="fab fa-xbox me-2"></i> Sign Up with Xbox
+                </a>
+                <a href="{{ url_for('login_psn') }}" class="btn btn-primary btn-lg py-3 fw-bold">
+                    <i class="fab fa-playstation me-2"></i> Sign Up with PS5
+                </a>
+            </div>
+
+            <div class="text-center mb-4">
+                <hr class="bg-secondary">
+                <span class="text-muted small px-2 bg-dark position-relative" style="top: -12px;">OR MANUAL REGISTRATION</span>
+            </div>
+
             <form action="{{ url_for('register') }}" method="POST">
                 <div class="mb-3">
                     <label class="form-label">Username</label>

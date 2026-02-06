@@ -261,20 +261,22 @@ def auth_xbox():
     token = xbox.authorize_access_token()
     user_info = token.get('userinfo')
     if user_info:
-        # Check if user exists
+        # 1-Click: Find or Create
         user = User.query.filter_by(xbox_oauth_id=user_info['sub']).first()
         if not user:
-            # Create new user if they don't exist
+            # Create account automatically on first click
             user = User(
-                username=user_info.get('name', user_info['sub']),
-                email=user_info.get('email', f"{user_info['sub']}@xbox.com"),
+                username=user_info.get('name', f"XboxPlayer_{user_info['sub'][:5]}"),
+                email=user_info.get('email', f"{user_info['sub']}@xbox-arena.com"),
                 platform='Xbox',
                 xbox_oauth_id=user_info['sub']
             )
             db.session.add(user)
             db.session.commit()
+            flash('Account created automatically with Xbox!')
+        
         login_user(user)
-        flash('Successfully logged in with Xbox!')
+        flash('Successfully logged in!')
     return redirect(url_for('dashboard'))
 
 @app.route('/login/psn')
@@ -285,8 +287,22 @@ def login_psn():
 @app.route('/auth/psn')
 def auth_psn():
     token = psn.authorize_access_token()
-    # PSN handling logic here...
-    flash('PSN Login successful! (Official integration active)')
+    # Simulated PSN 1-Click logic
+    user_id = "psn_user_id" # This would come from token/api
+    user = User.query.filter_by(psn_oauth_id=user_id).first()
+    if not user:
+        user = User(
+            username="PSN_Player",
+            email="psn@playstation-arena.com",
+            platform='PS5',
+            psn_oauth_id=user_id
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash('Account created automatically with PSN!')
+    
+    login_user(user)
+    flash('Successfully logged in with PSN!')
     return redirect(url_for('dashboard'))
 
 @app.route('/login', methods=['GET', 'POST'])
