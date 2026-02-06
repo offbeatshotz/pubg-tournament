@@ -78,8 +78,17 @@
                     this.classList.add('disabled');
                     
                     setTimeout(() => {
-                        alert(`Account created successfully via ${platform}! Redirecting...`);
-                        window.location.href = 'index.html';
+                        const confirmSelection = confirm(`Multiple accounts found. Create new Arena profile for "XboxPlayer_Arena"?`);
+                        if (confirmSelection) {
+                            this.innerHTML = `<i class="fas fa-check-circle me-2"></i> Profile Created`;
+                            setTimeout(() => {
+                                alert(`Account created successfully via ${platform}! Redirecting...`);
+                                window.location.href = 'index.html';
+                            }, 1000);
+                        } else {
+                            this.innerHTML = `<i class="fab fa-xbox me-2"></i> Sign Up with Xbox`;
+                            this.classList.remove('disabled');
+                        }
                     }, 1500);
                 }
             });

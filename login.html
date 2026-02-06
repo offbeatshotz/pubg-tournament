@@ -75,8 +75,17 @@
                     this.classList.add('disabled');
                     
                     setTimeout(() => {
-                        alert(`${platform} account connected successfully! Redirecting to dashboard...`);
-                        window.location.href = 'index.html'; // Mock redirect to home
+                        const confirmSelection = confirm(`Multiple Microsoft accounts found. Use "XboxPlayer_Arena" for ${platform}?`);
+                        if (confirmSelection) {
+                            this.innerHTML = `<i class="fas fa-check-circle me-2"></i> Account Selected`;
+                            setTimeout(() => {
+                                alert(`${platform} account connected successfully! Redirecting to dashboard...`);
+                                window.location.href = 'index.html';
+                            }, 1000);
+                        } else {
+                            this.innerHTML = `<i class="fab fa-xbox me-2"></i> Continue with Xbox`;
+                            this.classList.remove('disabled');
+                        }
                     }, 1500);
                 }
             });

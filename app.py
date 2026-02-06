@@ -267,7 +267,7 @@ def update_profile():
 @app.route('/login/xbox')
 def login_xbox():
     redirect_uri = url_for('auth_xbox', _external=True)
-    return xbox.authorize_redirect(redirect_uri)
+    return xbox.authorize_redirect(redirect_uri, prompt='select_account')
 
 @app.route('/auth/xbox')
 def auth_xbox():
