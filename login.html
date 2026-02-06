@@ -31,22 +31,18 @@
             <div class="col-md-6">
                 <div class="card p-4 shadow-lg">
                     <h2 class="text-center text-warning mb-4"><i class="fas fa-bolt me-2"></i>1-Click Login & Join</h2>
-                    <div class="alert alert-info small">
-                        <i class="fas fa-info-circle me-2"></i> <strong>1-Click Integration</strong>: Real console authentication creates your account instantly when you connect. (Requires Python backend)
-                    </div>
-                    
                     <div class="d-grid gap-3 mb-4">
                         <div class="position-relative">
-                            <a href="#" class="btn btn-success btn-lg w-100 disabled py-3 fw-bold"><i class="fab fa-xbox me-2"></i> Continue with Xbox</a>
+                            <a href="/login/xbox" class="btn btn-success btn-lg w-100 py-3 fw-bold"><i class="fab fa-xbox me-2"></i> Continue with Xbox</a>
                         </div>
                         <div class="position-relative">
-                            <a href="#" class="btn btn-primary btn-lg w-100 disabled py-3 fw-bold"><i class="fab fa-playstation me-2"></i> Continue with PS5</a>
+                            <a href="/login/psn" class="btn btn-primary btn-lg w-100 py-3 fw-bold"><i class="fab fa-playstation me-2"></i> Continue with PS5</a>
                         </div>
                     </div>
 
                     <div class="text-center mb-4 text-muted small">or login with email</div>
 
-                    <form onsubmit="event.preventDefault(); alert('Auth requires Python backend');">
+                    <form action="/login" method="POST">
                         <div class="mb-3">
                             <label class="form-label small">Email Address</label>
                             <input type="email" class="form-control bg-dark text-light border-secondary" placeholder="name@example.com">
