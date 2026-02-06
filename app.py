@@ -194,6 +194,7 @@ def add_tournament():
             title=title, 
             base_prize_pool=prize, 
             platform=platform,
+            description="TPP Tournament",
             date=datetime.utcnow()
         )
         db.session.add(new_t)
