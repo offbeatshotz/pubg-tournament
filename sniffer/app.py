@@ -10,7 +10,15 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-123')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pubg_tournaments.db'
+
+# Database configuration for Vercel/Production
+if os.environ.get('VERCEL'):
+    # Use /tmp for SQLite on Vercel (read-only filesystem)
+    # NOTE: Data will be wiped on every deployment. Use PostgreSQL for persistence.
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/pubg_tournaments.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///pubg_tournaments.db')
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

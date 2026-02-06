@@ -4,21 +4,9 @@
     {
       "src": "app.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/(index.html)?",
-      "dest": "index.html"
-    },
-    {
-      "src": "/tournaments.html",
-      "dest": "tournaments.html"
-    },
     {
       "src": "/(.*)",
       "dest": "app.py"
