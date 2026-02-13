@@ -30,18 +30,8 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4 shadow-lg">
-                    <h2 class="text-center text-warning mb-4"><i class="fas fa-bolt me-2"></i>1-Click Login & Join</h2>
-                    <div class="d-grid gap-3 mb-4">
-                        <div class="position-relative">
-                            <a href="/login/xbox" class="btn btn-success btn-lg w-100 py-3 fw-bold"><i class="fab fa-xbox me-2"></i> Continue with Xbox</a>
-                        </div>
-                        <div class="position-relative">
-                            <a href="/login/psn" class="btn btn-primary btn-lg w-100 py-3 fw-bold"><i class="fab fa-playstation me-2"></i> Continue with PS5</a>
-                        </div>
-                    </div>
-
-                    <div class="text-center mb-4 text-muted small">or login with email</div>
-
+                    <h2 class="text-center text-warning mb-4"><i class="fas fa-user-circle me-2"></i>Login</h2>
+                    
                     <form action="/login" method="POST">
                         <div class="mb-3">
                             <label class="form-label small">Email Address</label>
@@ -52,8 +42,18 @@
                             <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="Enter your password">
                         </div>
                         <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">Sign In</button>
-                        <a href="register.html" class="btn btn-outline-light w-100 py-2">Create New Account</a>
                     </form>
+
+                    <div class="text-center mb-4 text-muted small">or login with linked account</div>
+
+                    <div class="d-grid gap-2 mb-4">
+                        <a href="/login/xbox" class="btn btn-outline-success btn-sm py-2 fw-bold"><i class="fab fa-xbox me-2"></i> Xbox Live</a>
+                        <a href="/login/psn" class="btn btn-outline-primary btn-sm py-2 fw-bold"><i class="fab fa-playstation me-2"></i> PSN</a>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="register.html" class="btn btn-link text-warning text-decoration-none">Create New Account</a>
+                    </div>
                 </div>
             </div>
         </div>

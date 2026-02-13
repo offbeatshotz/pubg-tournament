@@ -11,6 +11,33 @@
             <p><strong>PSN ID:</strong> {{ current_user.psn_id or 'Not set' }}</p>
             <p><strong>Balance:</strong> ${{ "%.2f"|format(current_user.balance) }}</p>
             <hr>
+            
+            <div class="mb-4">
+                <h5 class="text-warning mb-3">Linked Accounts</h5>
+                {% if current_user.xbox_oauth_id %}
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-dark rounded">
+                        <span><i class="fab fa-xbox text-success me-2"></i> Xbox Linked</span>
+                        <span class="badge bg-success">Connected</span>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login_xbox') }}" class="btn btn-outline-success btn-sm w-100 mb-2">
+                        <i class="fab fa-xbox me-2"></i> Link Xbox Account
+                    </a>
+                {% endif %}
+
+                {% if current_user.psn_oauth_id %}
+                    <div class="d-flex justify-content-between align-items-center p-2 bg-dark rounded">
+                        <span><i class="fab fa-playstation text-primary me-2"></i> PSN Linked</span>
+                        <span class="badge bg-primary">Connected</span>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login_psn') }}" class="btn btn-outline-primary btn-sm w-100">
+                        <i class="fab fa-playstation me-2"></i> Link PS5 Account
+                    </a>
+                {% endif %}
+            </div>
+
+            <hr>
             <form action="{{ url_for('request_payout', user_id=current_user.id) }}" method="POST">
                 <button type="submit" class="btn btn-primary w-100 mb-2" {% if current_user.balance <= 0 %}disabled{% endif %}>Request PayPal Payout</button>
             </form>

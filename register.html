@@ -30,13 +30,9 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card p-4 shadow-lg">
-                    <h2 class="text-center text-warning mb-4"><i class="fas fa-bolt me-2"></i>1-Click Join</h2>
-                    <div class="d-grid gap-3 mb-4">
-                        <a href="/login/xbox" class="btn btn-success btn-lg py-3 fw-bold"><i class="fab fa-xbox me-2"></i> Sign Up with Xbox</a>
-                        <a href="/login/psn" class="btn btn-primary btn-lg py-3 fw-bold"><i class="fab fa-playstation me-2"></i> Sign Up with PS5</a>
-                    </div>
-
-                    <div class="text-center mb-4 text-muted small">or manual registration</div>
+                    <h2 class="text-center text-warning mb-4"><i class="fas fa-user-plus me-2"></i>Create Account</h2>
+                    
+                    <form action="/register" method="POST">
                         <div class="mb-3">
                             <label class="form-label small">Username</label>
                             <input type="text" class="form-control bg-dark text-light border-secondary" placeholder="ArenaHero">
@@ -57,8 +53,11 @@
                             <input type="password" class="form-control bg-dark text-light border-secondary" placeholder="Create a password">
                         </div>
                         <button type="submit" class="btn btn-warning w-100 py-2 fw-bold mb-3">Create Account</button>
-                        <a href="login.html" class="btn btn-outline-light w-100 py-2">Back to Login</a>
                     </form>
+
+                    <div class="text-center">
+                        <a href="login.html" class="btn btn-link text-warning text-decoration-none">Back to Login</a>
+                    </div>
                 </div>
             </div>
         </div>

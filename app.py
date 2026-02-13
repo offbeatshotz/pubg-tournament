@@ -274,22 +274,33 @@ def auth_xbox():
     token = xbox.authorize_access_token()
     user_info = token.get('userinfo')
     if user_info:
-        # 1-Click: Find or Create
-        user = db.session.query(User).filter_by(xbox_oauth_id=user_info['sub']).first()
-        if not user:
-            # Create account automatically on first click
-            user = User(
-                username=user_info.get('name', f"XboxPlayer_{user_info['sub'][:5]}"),
-                email=user_info.get('email', f"{user_info['sub']}@xbox-arena.com"),
-                platform='Xbox',
-                xbox_oauth_id=user_info['sub']
-            )
-            db.session.add(user)
-            db.session.commit()
-            flash('Account created automatically with Xbox!')
+        oauth_id = user_info['sub']
         
-        login_user(user)
-        flash('Successfully logged in!')
+        if current_user.is_authenticated:
+            # Check if this Xbox account is already linked to someone else
+            existing_user = db.session.query(User).filter_by(xbox_oauth_id=oauth_id).first()
+            if existing_user and existing_user.id != current_user.id:
+                flash('This Xbox account is already linked to another user.')
+                return redirect(url_for('dashboard'))
+            
+            # Link to current user
+            current_user.xbox_oauth_id = oauth_id
+            if not current_user.xbox_gamertag:
+                current_user.xbox_gamertag = user_info.get('name')
+            db.session.commit()
+            flash('Xbox account linked successfully!')
+            return redirect(url_for('dashboard'))
+        else:
+            # Login only if already linked
+            user = db.session.query(User).filter_by(xbox_oauth_id=oauth_id).first()
+            if user:
+                login_user(user)
+                flash('Successfully logged in with Xbox!')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('No account found linked to this Xbox profile. Please login via email and link your account in the dashboard.')
+                return redirect(url_for('login'))
+    
     return redirect(url_for('dashboard'))
 
 @app.route('/login/psn')
@@ -300,22 +311,31 @@ def login_psn():
 @app.route('/auth/psn')
 def auth_psn():
     token = psn.authorize_access_token()
-    # Simulated PSN 1-Click logic
-    user_id = "psn_user_id" # This would come from token/api
-    user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
-    if not user:
-        user = User(
-            username="PSN_Player",
-            email="psn@playstation-arena.com",
-            platform='PS5',
-            psn_oauth_id=user_id
-        )
-        db.session.add(user)
-        db.session.commit()
-        flash('Account created automatically with PSN!')
+    # Simulated PSN logic - in production this would come from token/api
+    user_id = "psn_user_id_placeholder" 
     
-    login_user(user)
-    flash('Successfully logged in with PSN!')
+    if current_user.is_authenticated:
+        # Check if already linked
+        existing_user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
+        if existing_user and existing_user.id != current_user.id:
+            flash('This PlayStation account is already linked to another user.')
+            return redirect(url_for('dashboard'))
+            
+        current_user.psn_oauth_id = user_id
+        db.session.commit()
+        flash('PlayStation account linked successfully!')
+        return redirect(url_for('dashboard'))
+    else:
+        # Login only if already linked
+        user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
+        if user:
+            login_user(user)
+            flash('Successfully logged in with PSN!')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('No account found linked to this PlayStation profile. Please login via email and link your account in the dashboard.')
+            return redirect(url_for('login'))
+
     return redirect(url_for('dashboard'))
 
 @app.route('/login', methods=['GET', 'POST'])
