@@ -17,20 +17,6 @@
                 </div>
                 <button type="submit" class="btn btn-warning w-100 btn-lg mb-3 fw-bold">Sign In</button>
             </form>
-
-            <div class="text-center mb-4">
-                <hr class="bg-secondary">
-                <span class="text-muted small px-2 bg-dark position-relative" style="top: -12px;">OR LOGIN WITH LINKED ACCOUNT</span>
-            </div>
-
-            <div class="d-grid gap-2 mb-4">
-                <a href="{{ url_for('login_xbox') }}" class="btn btn-outline-success btn-sm py-2">
-                    <i class="fab fa-xbox me-2"></i> Xbox Live
-                </a>
-                <a href="{{ url_for('login_psn') }}" class="btn btn-outline-primary btn-sm py-2">
-                    <i class="fab fa-playstation me-2"></i> PlayStation Network
-                </a>
-            </div>
             
             <div class="mt-2 text-center">
                 <p class="mb-0">Don't have an account? <a href="{{ url_for('register') }}" class="text-warning">Create Account</a></p>

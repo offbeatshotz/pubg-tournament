@@ -41,30 +41,6 @@ with app.app_context():
 
 login_manager.login_view = 'login'
 
-oauth = OAuth(app)
-
-# Xbox (Microsoft) OAuth Configuration
-xbox = oauth.register(
-    name='xbox',
-    client_id=os.environ.get('XBOX_CLIENT_ID'),
-    client_secret=os.environ.get('XBOX_CLIENT_SECRET'),
-    server_metadata_url='https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid profile email XboxLive.signin'}
-)
-
-# PlayStation (PSN) OAuth Configuration
-# Note: Sony requires official partner status for PSN OAuth. 
-# This is a placeholder for when you obtain your Client ID/Secret.
-psn = oauth.register(
-    name='psn',
-    client_id=os.environ.get('PSN_CLIENT_ID'),
-    client_secret=os.environ.get('PSN_CLIENT_SECRET'),
-    access_token_url='https://ca.account.sony.com/api/authz/v3/oauth/token',
-    authorize_url='https://ca.account.sony.com/api/authz/v3/oauth/authorize',
-    api_base_url='https://us-prof.np.community.playstation.net/userProfile/v1/users/',
-    client_kwargs={'scope': 'psn:s2s'}
-)
-
 # PayPal Configuration
 paypalrestsdk.configure({
     "mode": os.environ.get("PAYPAL_MODE", "sandbox"), # sandbox or live
@@ -262,80 +238,6 @@ def update_profile():
     current_user.paypal_email = request.form.get('paypal_email')
     db.session.commit()
     flash("Profile updated successfully!")
-    return redirect(url_for('dashboard'))
-
-@app.route('/login/xbox')
-def login_xbox():
-    redirect_uri = url_for('auth_xbox', _external=True)
-    return xbox.authorize_redirect(redirect_uri, prompt='select_account')
-
-@app.route('/auth/xbox')
-def auth_xbox():
-    token = xbox.authorize_access_token()
-    user_info = token.get('userinfo')
-    if user_info:
-        oauth_id = user_info['sub']
-        
-        if current_user.is_authenticated:
-            # Check if this Xbox account is already linked to someone else
-            existing_user = db.session.query(User).filter_by(xbox_oauth_id=oauth_id).first()
-            if existing_user and existing_user.id != current_user.id:
-                flash('This Xbox account is already linked to another user.')
-                return redirect(url_for('dashboard'))
-            
-            # Link to current user
-            current_user.xbox_oauth_id = oauth_id
-            if not current_user.xbox_gamertag:
-                current_user.xbox_gamertag = user_info.get('name')
-            db.session.commit()
-            flash('Xbox account linked successfully!')
-            return redirect(url_for('dashboard'))
-        else:
-            # Login only if already linked
-            user = db.session.query(User).filter_by(xbox_oauth_id=oauth_id).first()
-            if user:
-                login_user(user)
-                flash('Successfully logged in with Xbox!')
-                return redirect(url_for('dashboard'))
-            else:
-                flash('No account found linked to this Xbox profile. Please login via email and link your account in the dashboard.')
-                return redirect(url_for('login'))
-    
-    return redirect(url_for('dashboard'))
-
-@app.route('/login/psn')
-def login_psn():
-    redirect_uri = url_for('auth_psn', _external=True)
-    return psn.authorize_redirect(redirect_uri)
-
-@app.route('/auth/psn')
-def auth_psn():
-    token = psn.authorize_access_token()
-    # Simulated PSN logic - in production this would come from token/api
-    user_id = "psn_user_id_placeholder" 
-    
-    if current_user.is_authenticated:
-        # Check if already linked
-        existing_user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
-        if existing_user and existing_user.id != current_user.id:
-            flash('This PlayStation account is already linked to another user.')
-            return redirect(url_for('dashboard'))
-            
-        current_user.psn_oauth_id = user_id
-        db.session.commit()
-        flash('PlayStation account linked successfully!')
-        return redirect(url_for('dashboard'))
-    else:
-        # Login only if already linked
-        user = db.session.query(User).filter_by(psn_oauth_id=user_id).first()
-        if user:
-            login_user(user)
-            flash('Successfully logged in with PSN!')
-            return redirect(url_for('dashboard'))
-        else:
-            flash('No account found linked to this PlayStation profile. Please login via email and link your account in the dashboard.')
-            return redirect(url_for('login'))
-
     return redirect(url_for('dashboard'))
 
 @app.route('/login', methods=['GET', 'POST'])
