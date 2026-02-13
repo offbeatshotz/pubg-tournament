@@ -87,10 +87,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Placeholder for registrations -->
-                    <tr>
-                        <td colspan="3" class="text-center text-muted">You haven't joined any tournaments yet.</td>
-                    </tr>
+                    {% if registered_tournaments %}
+                        {% for t in registered_tournaments %}
+                        <tr>
+                            <td>{{ t.title }}</td>
+                            <td>{{ t.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td><span class="badge bg-secondary">{{ t.status }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">You haven't joined any tournaments yet.</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

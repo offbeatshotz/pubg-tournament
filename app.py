@@ -150,7 +150,51 @@ def sync_tournament_stats(tournament_id):
 @app.route('/tournaments')
 def tournaments():
     all_tournaments = db.session.query(Tournament).order_by(Tournament.date.desc()).all()
-    return render_template('tournaments.html', tournaments=all_tournaments)
+    # Check if user is registered for each tournament
+    user_registrations = []
+    if current_user.is_authenticated:
+        user_registrations = [r.tournament_id for r in db.session.query(Registration).filter_by(user_id=current_user.id).all()]
+    return render_template('tournaments.html', tournaments=all_tournaments, user_registrations=user_registrations)
+
+@app.route('/tournament/<int:tournament_id>/join', methods=['POST'])
+@login_required
+def join_tournament(tournament_id):
+    tournament = db.get_or_404(Tournament, tournament_id)
+    
+    # Check if already registered
+    existing_reg = db.session.query(Registration).filter_by(
+        user_id=current_user.id, 
+        tournament_id=tournament.id
+    ).first()
+    
+    if existing_reg:
+        flash("You are already registered for this tournament.")
+        return redirect(url_for('tournaments'))
+        
+    # Check platform compatibility (Tournament model uses 'PS5', 'Xbox Series', or 'Crossplay')
+    if tournament.platform == 'Xbox Series' and not current_user.xbox_gamertag:
+        flash("You must link your Xbox Gamertag in your profile before joining an Xbox tournament.")
+        return redirect(url_for('dashboard'))
+    elif tournament.platform == 'PS5' and not current_user.psn_id:
+        flash("You must link your PSN ID in your profile before joining a PS5 tournament.")
+        return redirect(url_for('dashboard'))
+    elif tournament.platform == 'Crossplay' and not (current_user.xbox_gamertag or current_user.psn_id):
+        flash("You must link at least one console ID (Xbox or PSN) in your profile before joining a crossplay tournament.")
+        return redirect(url_for('dashboard'))
+
+    # Check capacity
+    reg_count = db.session.query(Registration).filter_by(tournament_id=tournament.id).count()
+    if reg_count >= tournament.max_players:
+        flash("This tournament is full.")
+        return redirect(url_for('tournaments'))
+
+    # Create registration
+    new_reg = Registration(user_id=current_user.id, tournament_id=tournament.id)
+    db.session.add(new_reg)
+    db.session.commit()
+    
+    flash(f"Successfully joined {tournament.title}!")
+    return redirect(url_for('dashboard'))
 
 @app.route('/payout/<int:user_id>', methods=['POST'])
 @login_required
@@ -290,7 +334,15 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    # Fetch tournaments registered by the current user
+    registrations = db.session.query(Registration).filter_by(user_id=current_user.id).all()
+    registered_tournaments = []
+    for reg in registrations:
+        tournament = db.session.query(Tournament).get(reg.tournament_id)
+        if tournament:
+            registered_tournaments.append(tournament)
+            
+    return render_template('dashboard.html', registered_tournaments=registered_tournaments)
 
 @app.errorhandler(404)
 def page_not_found(e):

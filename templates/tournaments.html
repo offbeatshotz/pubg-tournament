@@ -4,27 +4,6 @@
 <h2 class="mb-4">Active Tournaments</h2>
 
 <div class="row">
-    <!-- Example Tournament Card -->
-    <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100">
-            <div class="card-header bg-warning text-dark fw-bold d-flex justify-content-between">
-                <span>Weekend Warfare #42</span>
-                <span class="badge bg-dark">Upcoming</span>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Crossplay Squads</h5>
-                <p class="card-text">
-                    <strong>Platform:</strong> PS5 & Xbox Series<br>
-                    <strong>Prize Pool:</strong> $100.00 (Funded)<br>
-                    <strong>Start Time:</strong> Friday, 8:00 PM EST<br>
-                    <strong>Slots:</strong> 12/25 Squads
-                </p>
-                <a href="#" class="btn btn-primary w-100">Join Tournament</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Placeholder for database loop -->
     {% if tournaments %}
         {% for t in tournaments %}
         <div class="col-md-6 col-lg-4 mb-4">
@@ -48,7 +27,17 @@
                     </p>
                     
                     <div class="d-grid gap-2 mb-3">
-                        <a href="#" class="btn btn-primary">Register</a>
+                        {% if current_user.is_authenticated %}
+                            {% if t.id in user_registrations %}
+                                <button class="btn btn-success disabled" disabled><i class="fas fa-check me-2"></i>Registered</button>
+                            {% else %}
+                                <form action="{{ url_for('join_tournament', tournament_id=t.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="btn btn-primary">Login to Register</a>
+                        {% endif %}
                         
                         <div class="btn-group">
                             <button class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#donateModal{{ t.id }}">Donate</button>
